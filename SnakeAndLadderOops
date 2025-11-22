@@ -1,0 +1,80 @@
+import java.util.*;
+
+ abstract class BoardBase {
+    abstract int validateMove(int pos);
+}
+
+class SnakeLadderBoard extends BoardBase {
+    int validateMove(int pos) {
+        switch (pos) {
+            case 1:  System.out.println(" Ladder to 30"); return 30;
+            case 2:  System.out.println(" Ladder to 60"); return 60;
+            case 3:  System.out.println(" Ladder to 79"); return 79;
+            case 4:  System.out.println("Ladder to 90"); return 90;
+            case 5:  System.out.println("Snake to 1");  return 1;
+            case 6:  System.out.println("Snake to 4");  return 4;
+            case 7:  System.out.println("Snake to 30"); return 30;
+            case 8:  System.out.println("Snake to 23"); return 23;
+            case 9:  System.out.println("Snake to 50"); return 50;
+            default: return pos;
+        }
+    }
+}
+
+class Player {
+    private int position = 0;
+
+    public int getPosition() {
+        return position;
+    }
+
+    public void updatePosition(int newPos) {
+        position = newPos;
+    }
+}
+
+class Dice {
+    private Random rand = new Random();
+
+    public int roll() {
+        return rand.nextInt(6) + 1;
+    }
+}
+
+class Game {
+    private Player player = new Player();
+    private Dice dice = new Dice();
+    private BoardBase board = new SnakeLadderBoard();
+    private Scanner scan = new Scanner(System.in);
+
+    public void play() {
+        System.out.println("******** Welcome to Snake & Ladder ********");
+
+        while (player.getPosition() < 100) {
+            System.out.println("\nPress Enter to roll the Dice");
+            scan.nextLine();
+
+            int value = dice.roll();
+            System.out.println("You rolled: " + value);
+
+            int nextPos = player.getPosition() + value;
+            if (nextPos > 100) {
+                System.out.println("Need exact number to reach 100!");
+                continue;
+            }
+
+            nextPos = board.validateMove(nextPos);
+            player.updatePosition(nextPos);
+
+            System.out.println("Current Position: " + player.getPosition());
+        }
+
+        System.out.println(" YOU WON! Reached 100 ");
+    }
+}
+
+public class SnakeAndLadderOops {
+    public static void main(String[] args) {
+        new Game().play();
+    }
+}
