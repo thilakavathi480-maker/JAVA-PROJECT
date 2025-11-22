@@ -1,0 +1,104 @@
+import java.util.*;
+
+class InvalidInputException extends Exception {
+    public InvalidInputException(String message) {
+        super(message);
+    }
+}
+
+class Player {
+    private int position = 0;
+
+    public int getPosition() {
+        return position;
+    }
+
+    public void setPosition(int pos) {
+        this.position = pos;
+    }
+}
+
+class Dice {
+    private Random random = new Random();
+
+    public int roll() {
+        return random.nextInt(6) + 1;
+    }
+}
+
+abstract class BoardBase {
+    abstract int validateMove(int pos);
+}
+
+class SnakeLadderBoard extends BoardBase {
+
+    int validateMove(int pos) {
+        switch (pos) {
+            case 1: System.out.println("Ladder to 30"); return 30;
+            case 2: System.out.println("Ladder to 60"); return 60;
+            case 3: System.out.println("Ladder to 79"); return 79;
+            case 4: System.out.println("Ladder to 90"); return 90;
+            case 5: System.out.println("Snake to 1"); return 1;
+            case 6: System.out.println("Snake to 4"); return 4;
+            case 7: System.out.println("Snake to 30"); return 30;
+            case 8: System.out.println("Snake to 23"); return 23;
+            case 9: System.out.println("Snake to 50"); return 50;
+            default: return pos;
+        }
+    }
+}
+
+class Game {
+    private Player player = new Player();
+    private BoardBase board = new SnakeLadderBoard();
+    private Dice dice = new Dice();
+    private Scanner scan = new Scanner(System.in);
+
+    private void askToRoll() throws InvalidInputException {
+        System.out.println("\nPress ENTER to roll the dice:");
+        String input = scan.nextLine();
+        if (!input.equals("")) {
+            throw new InvalidInputException("Invalid input. Only press ENTER.");
+        }
+    }
+
+    public void play() {
+        System.out.println("******** Welcome to Snake & Ladder ********");
+
+        while (player.getPosition() < 100) {
+            try {
+                askToRoll();
+
+                int value = dice.roll();
+                System.out.println("You rolled: " + value);
+
+                int nextPos = player.getPosition() + value;
+
+                if (nextPos > 100) {
+                    System.out.println("Need exact number to reach 100");
+                } else {
+                    nextPos = board.validateMove(nextPos);
+                    player.setPosition(nextPos);
+                }
+
+                System.out.println("Current Position: " + player.getPosition());
+            }
+            catch (InvalidInputException e) {
+                System.out.println(e.getMessage());
+                System.out.println("Try again");
+            }
+            catch (Exception e) {
+                System.out.println("Unexpected Error: " + e.getMessage());
+            }
+        }
+
+        System.out.println("\nYOU WON! Reached 100");
+    }
+}
+
+public class SnakeAndLadderExceptionHandling {
+    public static void main(String[] args) {
+        Game game = new Game();
+        game.play();
+    }
+}
