@@ -1,0 +1,89 @@
+import java.util.Scanner;
+import java.util.Random;
+
+public class Snakeladder
+
+{
+    public static void main(String[]args)
+    {
+    Scanner scan=new Scanner(System.in);
+    Random rand=new Random();
+    
+    int playerPos=0;
+    {
+    
+    System.out.println("******Welcome to snake and ladder Game******");
+    }
+    while(playerPos < 100)
+    {
+    System.out.println("\n Press Enter the doll the dice : ");
+    scan.nextLine();
+    int dice=rand.nextInt(6)+1;
+    
+    System.out.println(" Youh rolled  " + dice);
+    
+    playerPos +=dice;
+    
+    if(playerPos > 100)
+    
+    playerPos-=dice;
+}
+
+switch(playerPos)
+{
+case 1:
+playerPos=10;
+System.out.println("Ladder!climbs up to 30");
+break;
+
+case 2:
+playerPos=20;
+System.out.println("Ladder! climbs up to 60");
+break;
+
+case 3:
+playerPos=45;
+System.out.println("Ladder! clims up to 79");
+break;
+
+case 4:
+playerPos=70;
+System.out.println("Ladder! clims up to 90");
+break;
+
+case 5:
+playerPos=23;
+System.out.println("Snake..go down to 1");
+break;
+
+case 6:
+playerPos=39;
+System.out.println("Snake..go down to 4");
+break;
+
+case 7:
+playerPos=44;
+System.out.println("Snake..go down to 30");
+break;
+
+case 8:
+playerPos=55;
+System.out.println("Snake..go down to 23");
+break;
+
+case 9:
+playerPos=88;
+System.out.println("Snake..go down to 50");
+break;
+}
+{
+System.out.println("Current pos : " + playerPos);
+}
+while(playerPos==100)
+{
+System.out.println("OOH Youh  reached 100 Congrats You Won");
+break;
+}
+scan.close();
+}
+}
